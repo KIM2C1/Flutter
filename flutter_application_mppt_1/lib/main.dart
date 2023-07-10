@@ -9,32 +9,69 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF181818),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 15,
             ),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(children: [
-                      Text('1'),
-                    ]),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.apple_outlined,
-                          size: 35,
+                    Container(
+                      width: 300,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(45),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 20,
                         ),
-                      ],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(
+                                  Icons.battery_alert,
+                                  color: Colors.black,
+                                  size: 40,
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Battery Warning",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: const Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(
+                          Icons.android_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ],
                 ),
