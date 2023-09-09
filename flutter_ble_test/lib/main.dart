@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
+import 'device_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final title = 'Flutter BLE Scan Demo';
-
-  const MyApp({super.key});
+  final title = 'BLE Set Notification';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -27,7 +27,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  FlutterBlue flutterBlue = FlutterBlue.instance;
+  FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
   List<ScanResult> scanResultList = [];
   bool _isScanning = false;
 
@@ -55,10 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
       // 기존에 스캔된 리스트 삭제
       scanResultList.clear();
       // 스캔 시작, 제한 시간 4초
-      flutterBlue.startScan(timeout: const Duration(seconds: 4));
+      flutterBlue.startScan(timeout: Duration(seconds: 4));
       // 스캔 결과 리스너
       flutterBlue.scanResults.listen((results) {
-        // List<ScanResult> 형태의 results 값을 scanResultList에 복사
         scanResultList = results;
         // UI 갱신
         setState(() {});
@@ -101,19 +100,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /* BLE 아이콘 위젯 */
   Widget leading(ScanResult r) {
-    return const CircleAvatar(
-      backgroundColor: Colors.cyan,
+    return CircleAvatar(
       child: Icon(
         Icons.bluetooth,
         color: Colors.white,
       ),
+      backgroundColor: Colors.cyan,
     );
   }
 
   /* 장치 아이템을 탭 했을때 호출 되는 함수 */
   void onTap(ScanResult r) {
     // 단순히 이름만 출력
-    print(r.device.name);
+    print('${r.device.name}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DeviceScreen(device: r.device)),
+    );
   }
 
   /* 장치 아이템 위젯 */
@@ -141,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return listItem(scanResultList[index]);
           },
           separatorBuilder: (BuildContext context, int index) {
-            return const Divider();
+            return Divider();
           },
         ),
       ),
